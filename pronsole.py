@@ -199,8 +199,8 @@ class Settings:
         self.xy_feedrate = 3000
         self.z_feedrate = 200
         self.e_feedrate = 300
-        self.slicecommand="python skeinforge/skeinforge_application/skeinforge_utilities/skeinforge_craft.py $s"
-        self.sliceoptscommand="python skeinforge/skeinforge_application/skeinforge.py"
+        self.slicecommand="Slic3r/slic3r.pl $s --load config.ini --output $o"
+        self.sliceoptscommand="Slic3r/slic3r.pl --load config.ini --ignore-nonexistent-config"
 
     def _set(self,key,value):
         try:

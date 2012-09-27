@@ -551,6 +551,16 @@ class PronterWindow(wx.Frame,pronsole.pronsole):
         self.pausebtn=wx.Button(self.panel,-1,_("Pause"))
         self.pausebtn.Bind(wx.EVT_BUTTON,self.pause)
         ubs.Add(self.pausebtn)
+
+	# Fan control buttons
+        self.fan_on_btn=wx.Button(self.panel,-1,_("Fan ON"))
+        self.fan_on_btn.Bind(wx.EVT_BUTTON,self.fan_on)
+        ubs.Add(self.fan_on_btn)
+        self.fan_off_btn=wx.Button(self.panel,-1,_("Fan OFF"))
+        self.fan_off_btn.Bind(wx.EVT_BUTTON,self.fan_off)
+        ubs.Add(self.fan_off_btn)
+
+
         #Right full view
         lrs=self.lowerrsizer=wx.BoxSizer(wx.VERTICAL)
         self.logbox=wx.TextCtrl(self.panel,style = wx.TE_MULTILINE,size=(350,-1))
@@ -1514,6 +1524,20 @@ class PronterWindow(wx.Frame,pronsole.pronsole):
             self.p.send_now("M28 "+str(dlg.GetValue()))
             self.recvlisteners+=[self.uploadtrigger]
         pass
+
+    def fan_on(self, event):
+        if not self.p.online:
+            wx.CallAfter(self.status.SetStatusText,_("Not connected to printer."))
+            return
+        self.p.send_now("M106 S255")
+        return
+
+    def fan_off(self, event):
+        if not self.p.online:
+            wx.CallAfter(self.status.SetStatusText,_("Not connected to printer."))
+            return
+        self.p.send_now("M106 S0")
+        return
 
     def pause(self,event):
         print _("Paused.")
